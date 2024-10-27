@@ -3,6 +3,19 @@ import { colorPalette } from './colorPalette'
 
 export default css`
   ${colorPalette}
+
+  :root {
+    --dimmed-zindex: 10;
+    --alert-zindex: 11;
+  }
+  @font-face {
+    font-family: 'Spoqa Han Sans';
+    src: url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
+  }
+
+  * {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important;
+  }
   html,
   body,
   div,
@@ -137,5 +150,12 @@ export default css`
     color: inherit;
     font: inherit;
     line-height: normal;
+  }
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  body {
+    transform: skew(-0.05deg);
   }
 `
