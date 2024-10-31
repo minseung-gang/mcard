@@ -155,7 +155,4 @@ export default css`
     color: inherit;
     text-decoration: inherit;
   }
-  body {
-    transform: skew(-0.05deg);
-  }
 `
