@@ -8,6 +8,7 @@ import Flex from '@/components/shared/Flex'
 import FixedBottomButton from '@/components/shared/FixedBottomButton'
 import Text from '@/components/shared/Text'
 import { css } from '@emotion/react'
+import { motion } from 'framer-motion'
 
 export default function CardPage() {
   const { id } = useParams()
@@ -18,28 +19,45 @@ export default function CardPage() {
   const { name, corpName, promotion, tags, benefit } = data
 
   const subTitle = removeHtmlTages(promotion?.title ?? '') || tags.join(', ')
-  console.log(data)
+
   return (
     <div>
       <Top title={`${corpName} ${name}`} subtitle={subTitle} />
       <ul>
         {benefit.map((text, index) => {
           return (
-            <ListRow
+            <motion.li
               key={text}
-              left={
-                <Flex
-                  align="center"
-                  justfiy="center"
-                  css={iconsContainerStyles}
-                >
-                  <HiOutlineCheck color={colors.white} size={16} />
-                </Flex>
-              }
-              contents={
-                <ListRow.Texts title={`혜택 ${index + 1}`} subTitle={text} />
-              }
-            />
+              initial={{
+                opacity: 0,
+                translateX: -90,
+              }}
+              transition={{
+                duration: 0.3,
+                ease: 'easeInOut',
+                delay: index * 0.1,
+              }}
+              animate={{
+                opacity: 1,
+                translateX: 0,
+              }}
+            >
+              <ListRow
+                as="div"
+                left={
+                  <Flex
+                    align="center"
+                    justify="center"
+                    css={iconsContainerStyles}
+                  >
+                    <HiOutlineCheck color={colors.white} size={16} />
+                  </Flex>
+                }
+                contents={
+                  <ListRow.Texts title={`혜택 ${index + 1}`} subTitle={text} />
+                }
+              />
+            </motion.li>
           )
         })}
       </ul>
