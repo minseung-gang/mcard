@@ -19,7 +19,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     ref,
   ) {
     const [focused, setFocused] = useState(false)
-    //TODO: 포커스처리
+
     const labelColor = hasError ? 'red' : focused ? 'blue' : undefined
 
     const handleFocus: FocusEventHandler<HTMLInputElement> = (event) => {
@@ -28,7 +28,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     }
     const handleBlur: FocusEventHandler<HTMLInputElement> = (event) => {
       setFocused(false)
-      onFocus?.(event)
+      onBlur?.(event)
     }
     return (
       <div>
@@ -53,6 +53,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         {helpMessage && (
           <Text
             typography="t7"
+            color={labelColor}
             display="inline-block"
             style={{ marginTop: 6, fontSize: 12 }}
           >
