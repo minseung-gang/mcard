@@ -1,7 +1,7 @@
 import ListRow from '@/components/shared/ListRow'
 import Top from '@/components/shared/Top'
 import { useFetchCard } from '@/service/query/useCardService'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { HiOutlineCheck } from 'react-icons/hi'
 import { colors } from '@/styles/colorPalette'
 import Flex from '@/components/shared/Flex'
@@ -9,17 +9,34 @@ import FixedBottomButton from '@/components/shared/FixedBottomButton'
 import Text from '@/components/shared/Text'
 import { css } from '@emotion/react'
 import { motion } from 'framer-motion'
+import { useCallback } from 'react'
+import useUser from '@/hooks/auth/useUser'
+import { useAlertContext } from '@/hooks/useAlertContext'
 
 export default function CardPage() {
   const { id } = useParams()
-
+  const user = useUser()
+  const navigate = useNavigate()
+  const { open } = useAlertContext()
   const { data } = useFetchCard(id ?? '')
+
+  const moveToApply = useCallback(() => {
+    if (user == null) {
+      open({
+        title: '로그인이 필요한 기능입니다.',
+        onButtonClick: () => {
+          navigate(`/signin`, { state: { from: `/card/${id}` } })
+        },
+      })
+      return
+    }
+    navigate(`/apply/${id}`)
+  }, [user, id, open, navigate])
 
   if (!data) return null
   const { name, corpName, promotion, tags, benefit } = data
 
   const subTitle = removeHtmlTages(promotion?.title ?? '') || tags.join(', ')
-
   return (
     <div>
       <Top title={`${corpName} ${name}`} subtitle={subTitle} />
@@ -68,7 +85,7 @@ export default function CardPage() {
           <Text typography="t7">{removeHtmlTages(promotion?.terms)}</Text>
         </Flex>
       )}
-      <FixedBottomButton label="신청하기" onClick={() => ''} />
+      <FixedBottomButton label="신청하기" onClick={moveToApply} />
     </div>
   )
 }
