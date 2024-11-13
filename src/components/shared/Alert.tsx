@@ -23,7 +23,7 @@ function Alert({
           {title}
         </Text>
         {description && <Text typography="t7">{description}</Text>}
-        <Flex justfiy="flex-end">
+        <Flex justify="flex-end">
           <Button
             onClick={onButtonClick}
             weak
