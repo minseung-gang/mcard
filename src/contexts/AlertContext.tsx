@@ -1,5 +1,11 @@
 import Alert from '@/components/shared/Alert'
-import { createContext, useCallback, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { createPortal } from 'react-dom'
 import { AlertOptions, AlertProps } from '@/models/alert'
 
@@ -50,4 +56,14 @@ export function AlertContextProvider({
       {$portal_root && createPortal(<Alert {...alertState} />, $portal_root)}
     </Context.Provider>
   )
+}
+
+export function useAlertContext() {
+  const values = useContext(Context)
+
+  if (values == null) {
+    throw new Error('AlertContext 내부에서 사용해주세요')
+  }
+
+  return values
 }
